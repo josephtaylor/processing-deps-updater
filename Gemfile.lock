@@ -22,6 +22,7 @@ GEM
       mongo (~> 2.1)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
+    open_uri_redirections (0.2.1)
     origin (2.1.1)
     rubyzip (1.1.7)
     thread_safe (0.3.5)
@@ -33,6 +34,7 @@ PLATFORMS
 
 DEPENDENCIES
   mongoid
+  open_uri_redirections
   rubyzip
 
 BUNDLED WITH
