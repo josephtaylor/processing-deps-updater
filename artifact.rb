@@ -62,11 +62,11 @@ module Processing
         end
 
         def clean_up(zip_file_path)
-            FileUtils.rm zip_file_path
+            FileUtils.rm zip_file_path, :verbose => true
             base_dir = "#{zip_file_path.gsub('.zip', '')}"
-            FileUtils.rm_rf "#{base_dir}/examples"
-            FileUtils.rm_rf "#{base_dir}/reference"
-            FileUtils.rm_rf "#{base_dir}/src"
+            FileUtils.rm_rf "#{base_dir}/examples", :verbose => true
+            FileUtils.rm_rf "#{base_dir}/reference", :verbose => true
+            FileUtils.rm_rf "#{base_dir}/src", :verbose => true
         end
     end
 end
