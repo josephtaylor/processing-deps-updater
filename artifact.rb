@@ -13,7 +13,10 @@ module Processing
         def create(library)
             begin
                 directory = "#{@processing_deps_path}/#{library.normalized_name}/#{library.pretty_version}"
-                return if Dir.exist? directory
+                if Dir.exist? directory
+                    puts "Library #{library.name} - version: #{library.pretty_version} has already been synced."
+                    return
+                end
                 FileUtils.mkdir_p directory
                 zip_file_path = download(directory, library)
                 extract(directory, zip_file_path)
@@ -23,6 +26,7 @@ module Processing
                     raise 'Jar File is not named correctly.'
                 end
                 @install_script.add_library(library, jar_path)
+                clean_up zip_file_path
             rescue Exception => e
                 puts "Something failed while processing #{library.name}"
                 puts e.message
@@ -55,6 +59,14 @@ module Processing
         def find_jar_path(zip_file_path)
             _, zip_name, _ = zip_file_path.match(/(.*\/)(.*)\.zip/).captures
             "#{zip_file_path.gsub('.zip', '')}/library/#{zip_name}.jar"
+        end
+
+        def clean_up(zip_file_path)
+            FileUtils.rm zip_file_path
+            base_dir = "#{zip_file_path.gsub('.zip', '')}"
+            FileUtils.rm_rf "#{base_dir}/examples"
+            FileUtils.rm_rf "#{base_dir}/reference"
+            FileUtils.rm_rf "#{base_dir}/src"
         end
     end
 end

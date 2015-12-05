@@ -1,0 +1,91 @@
+# processing-deps
+This is a script and a collection of Processing libraries.<br/>
+It will install the libraries as maven dependencies so you can work with Processing in your favorite IDE.<br/>
+Note that some of the libraries have additional dependencies in the form of other jar files or other various files.<br/>
+If you get errors, check the folder for that particular library for additional resources that will have
+to be added to your project.
+
+## prerequisites
+java - [installation information](http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html)<br/>
+maven - [download](http://maven.apache.org/download.cgi) -
+[quick-start guide](http://maven.apache.org/run-maven/index.html#Quick_Start)<br/>
+a shell - mac/linux use the terminal. - windows use [cygwin](https://www.cygwin.com/)
+
+## installation
+     git clone https://github.com/josephtaylor/processing-deps.git
+     cd processing-deps
+     ./install.sh
+
+## usage with maven for Processing 3
+to run processing you need at least this much in your <code>pom.xml</code> file:
+<pre><code>  &lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.processing&lt;/groupId&gt;
+		&lt;artifactId&gt;processing-core&lt;/artifactId&gt;
+		&lt;version&gt;3.0&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.jogamp.gluegen&lt;/groupId&gt;
+		&lt;artifactId&gt;gluegen-rt-main&lt;/artifactId&gt;
+		&lt;version&gt;2.3.1&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.jogamp.jogl&lt;/groupId&gt;
+		&lt;artifactId&gt;jogl-all-main&lt;/artifactId&gt;
+		&lt;version&gt;2.3.1&lt;/version&gt;
+	&lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+
+## usage with maven for Processing 2.2.1
+to run processing you need at least this much in your <code>pom.xml</code> file:
+<pre><code>  &lt;dependencies&gt;
+        &lt;dependency&gt;
+                &lt;groupId&gt;org.processing&lt;/groupId&gt;
+                &lt;artifactId&gt;processing-core&lt;/artifactId&gt;
+                &lt;version&gt;2.2.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+                &lt;groupId&gt;org.jogamp.gluegen&lt;/groupId&gt;
+                &lt;artifactId&gt;gluegen-rt-main&lt;/artifactId&gt;
+                &lt;version&gt;2.2.4&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+                &lt;groupId&gt;org.jogamp.jogl&lt;/groupId&gt;
+                &lt;artifactId&gt;jogl-all-main&lt;/artifactId&gt;
+                &lt;version&gt;2.2.4&lt;/version&gt;
+        &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+
+## pom entries for each plugin
+
+{% for library in libraries %}
+### {{ library.name }} - {{ library.pretty_version }}
+<pre><code>&lt;dependency&gt;
+	&lt;groupId&gt;{{ library.normalized_name }}&lt;/groupId&gt;
+	&lt;artifactId&gt;{{ library.normalized_name }}&lt;/artifactId&gt;
+	&lt;version&gt;{{ library.pretty_version }}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+
+{% endfor %}
+### video
+<pre><code>&lt;dependency&gt;
+	&lt;groupId&gt;org.processing&lt;/groupId&gt;
+	&lt;artifactId&gt;procesing-video&lt;/artifactId&gt;
+	&lt;version&gt;0.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.processing&lt;/groupId&gt;
+	&lt;artifactId&gt;procesing-video-gstreamer&lt;/artifactId&gt;
+	&lt;version&gt;0.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.processing&lt;/groupId&gt;
+	&lt;artifactId&gt;procesing-video-jna&lt;/artifactId&gt;
+	&lt;version&gt;0.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+
+[Usage Example](http://github.com/josephtaylor/video-test)
+
+### Contributing
+Don't see your favorite libraries?<br/>
+Fork this and add stuff, I'll pull in whatever you want.

@@ -1,15 +1,23 @@
 #!/usr/bin/ruby2.2
 
 require 'net/http'
-require 'mongoid'
+require 'json'
+require 'data_mapper'
 require_relative 'artifact.rb'
 require_relative 'library.rb'
 require_relative 'utils.rb'
 require_relative 'install_script.rb'
+require_relative 'readme-generator.rb'
 
-Mongoid.load!('./mongoid.yml', :production)
-Mongoid.logger.level = Logger::WARN
-Processing::Library.create_indexes #since we aren't using rake or rails.
+# TODO: Make this configurable
+processing_deps_path = '/opt/dev/processing-deps'
+
+config = JSON.parse(IO.read('database.json'))
+
+DataMapper::Logger.new($stdout, :debug)
+DataMapper.setup(:default, config['database_connection'])
+DataMapper.finalize
+DataMapper.auto_upgrade!
 
 full_text = Net::HTTP.get 'download.processing.org', '/contribs'
 
@@ -18,6 +26,7 @@ lib_list.shift
 
 lib_list.each do |lib_text|
     library = Processing::Library.new
+    library.id = SecureRandom.uuid
     props = lib_text.split "\n"
     props.each do |prop|
         key_value_pair = prop.split "="
@@ -31,25 +40,29 @@ lib_list.each do |lib_text|
         library.pretty_version = value if key == 'prettyVersion'
         library.download = value if key == 'download'
     end
+    if library.pretty_version.to_s.strip == ''
+        library.pretty_version = library.version
+    end
     begin
-        library.save!
-    rescue Exception => e
-        if e.message.include? 'duplicate key error' #library already exists
-            library.delete
+        puts "Saving: #{library.name}"
+        unless library.save
+            library.errors.each { |e| puts e }
         end
+    rescue Exception => e
+        puts "Failed to save #{library.name}: #{e.message}"
     end
 end
 
 libraries = Processing::Library.all
 
-libraries.each do |lib|
-    puts "#{lib.name}: #{lib.normalized_name}"
-end
-
-install_script = Processing::InstallScript.new '/opt/dev/processing-deps/install.sh'
+install_script = Processing::InstallScript.new "#{processing_deps_path}/install.sh"
 
 libraries.each do |lib|
-    Processing::Artifact.new('/opt/dev/processing-deps', install_script).create(lib)
+    Processing::Artifact.new(processing_deps_path, install_script).create(lib)
 end
-
+install_script.add_processing_version '2.2.1', processing_deps_path
+install_script.add_processing_version '3.0', processing_deps_path
+install_script.add_processing_version '3.0b4', processing_deps_path
 install_script.close
+
+Processing::ReadmeGenerator.new("#{processing_deps_path}/README.md").generate(libraries)

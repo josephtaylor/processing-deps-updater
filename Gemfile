@@ -1,3 +1,5 @@
 source 'https://rubygems.org'
 gem 'rubyzip'
-gem 'mongoid'
+gem 'liquid'
+gem 'data_mapper'
+gem 'dm-mysql-adapter'
