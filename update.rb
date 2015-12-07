@@ -39,10 +39,15 @@ lib_list.each do |lib_text|
         library.version = value if key == 'version'
         library.pretty_version = value if key == 'prettyVersion'
         library.download = value if key == 'download'
+        library.type = value if key == 'type'
     end
+    # skip modes, examples, and tools
+    next unless library.type == 'library'
+
     if library.pretty_version.to_s.strip == ''
         library.pretty_version = library.version
     end
+
     begin
         puts "Saving: #{library.name}"
         unless library.save
@@ -58,8 +63,15 @@ libraries = Processing::Library.all
 install_script = Processing::InstallScript.new "#{processing_deps_path}/install.sh"
 
 libraries.each do |lib|
-    Processing::Artifact.new(processing_deps_path, install_script).create(lib)
+    jar_file = Processing::Artifact.new(processing_deps_path).create(lib)
+    unless jar_file.to_s == ''
+        puts "Updating library with jar_file: #{jar_file}"
+        lib.jar_file = jar_file
+        lib.save
+    end
+    install_script.add_library lib
 end
+
 install_script.add_processing_version '2.2.1', processing_deps_path
 install_script.add_processing_version '3.0', processing_deps_path
 install_script.add_processing_version '3.0b4', processing_deps_path

@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    RubyInline (3.12.4)
+      ZenTest (~> 4.3)
+    ZenTest (4.11.0)
     addressable (2.3.8)
     bcrypt (3.1.10)
     bcrypt-ruby (3.1.5)
@@ -54,6 +57,8 @@ GEM
     do_mysql (0.10.16)
       data_objects (= 0.10.16)
     fastercsv (1.5.5)
+    fuzzy-string-match (0.9.7)
+      RubyInline (>= 3.8.6)
     json (1.8.3)
     json_pure (1.8.3)
     liquid (3.0.6)
@@ -68,6 +73,7 @@ PLATFORMS
 DEPENDENCIES
   data_mapper
   dm-mysql-adapter
+  fuzzy-string-match
   liquid
   rubyzip
 

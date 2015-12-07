@@ -9,6 +9,8 @@ module Processing
         property :normalized_name, String, :length => 255, :unique_index => :name_version
         property :pretty_version, String, :length => 255, :unique_index => :name_version
         property :version, Integer
+        property :type, String
+        property :jar_file, String, :length => 1028
     end
 
     class LiquidLibrary < Liquid::Drop

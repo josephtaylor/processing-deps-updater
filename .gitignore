@@ -180,3 +180,9 @@ tramp
 
 ### Database Configuration ###
 database.json
+
+### Log Files
+*.log
+
+### My Notes ###
+notes.txt
