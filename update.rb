@@ -60,7 +60,7 @@ end
 
 libraries = Processing::Library.all
 
-install_script = Processing::InstallScript.new "#{processing_deps_path}/install.sh"
+install_script = Processing::InstallScript.new processing_deps_path, 'install.sh'
 
 libraries.each do |lib|
     jar_file = Processing::Artifact.new(processing_deps_path).create(lib)
@@ -72,9 +72,9 @@ libraries.each do |lib|
     install_script.add_library lib
 end
 
-install_script.add_processing_version '2.2.1', processing_deps_path
-install_script.add_processing_version '3.0', processing_deps_path
-install_script.add_processing_version '3.0b4', processing_deps_path
+install_script.add_processing_version '2.2.1'
+install_script.add_processing_version '3.0'
+install_script.add_processing_version '3.0b4'
 install_script.close
 
 Processing::ReadmeGenerator.new("#{processing_deps_path}/README.md").generate(libraries)

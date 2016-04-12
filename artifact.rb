@@ -72,12 +72,8 @@ module Processing
         def find_jar_path(directory)
             extracted_folder = Dir.entries(directory).reject { |d| d.include?('.zip') || d.include?('.txt') }.sort.last
             puts "Unzipped folder: #{extracted_folder}"
-            # hack for punktiert to work (remove if library zip gets fixed)
-            if extracted_folder == 'punktiert'
-                library_folder = File.join(directory, extracted_folder, extracted_folder, 'library')
-            else
-                library_folder = File.join(directory, extracted_folder, 'library')
-            end
+
+            library_folder = File.join(directory, extracted_folder, 'library')
 
             puts "Determined library path: #{library_folder}"
             jar_files = Dir.entries(library_folder).select { |f| f.match /.*\.jar$/ }
