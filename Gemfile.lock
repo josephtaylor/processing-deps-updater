@@ -4,8 +4,8 @@ GEM
     RubyInline (3.12.4)
       ZenTest (~> 4.3)
     ZenTest (4.11.0)
-    addressable (2.3.8)
-    bcrypt (3.1.10)
+    addressable (2.4.0)
+    bcrypt (3.1.11)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
     data_mapper (1.2.0)
@@ -18,7 +18,7 @@ GEM
       dm-transactions (~> 1.2.0)
       dm-types (~> 1.2.0)
       dm-validations (~> 1.2.0)
-    data_objects (0.10.16)
+    data_objects (0.10.17)
       addressable (~> 2.1)
     dm-aggregates (1.2.0)
       dm-core (~> 1.2.0)
@@ -54,16 +54,16 @@ GEM
       uuidtools (~> 2.1)
     dm-validations (1.2.0)
       dm-core (~> 1.2.0)
-    do_mysql (0.10.16)
-      data_objects (= 0.10.16)
+    do_mysql (0.10.17)
+      data_objects (= 0.10.17)
     fastercsv (1.5.5)
     fuzzy-string-match (0.9.7)
       RubyInline (>= 3.8.6)
     json (1.8.3)
     json_pure (1.8.3)
     liquid (3.0.6)
-    multi_json (1.11.2)
-    rubyzip (1.1.7)
+    multi_json (1.12.0)
+    rubyzip (1.2.0)
     stringex (1.5.1)
     uuidtools (2.1.5)
 
@@ -78,4 +78,4 @@ DEPENDENCIES
   rubyzip
 
 BUNDLED WITH
-   1.10.6
+   1.12.3
