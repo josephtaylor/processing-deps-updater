@@ -76,6 +76,7 @@ install_script.add_processing_version '2.2.1'
 install_script.add_processing_version '3.0'
 install_script.add_processing_version '3.0b4'
 install_script.add_processing_version '3.1'
+install_script.add_processing_version '3.3.5'
 install_script.close
 
 Processing::ReadmeGenerator.new("#{processing_deps_path}/README.md").generate(libraries)
