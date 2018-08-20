@@ -1,4 +1,4 @@
-#!/usr/bin/ruby2.2
+#!/usr/bin/env ruby
 
 require 'net/http'
 require 'json'
